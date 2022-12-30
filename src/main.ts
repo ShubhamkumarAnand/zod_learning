@@ -9,6 +9,10 @@ const studentSchema = z
 		gender: z.enum(['Male', 'Female', 'Other']),
 		friends: z.array(z.string()).nonempty(),
 		coords: z.tuple([z.number(), z.string()]).rest(z.number()),
+		id: z.discriminatedUnion('status', [
+			z.object({ status: z.literal('success'), data: z.string() }),
+			z.object({ status: z.literal('Failure'), data: z.instanceof(Error) }),
+		]),
 	})
 	.extend({ isDoingImpressive: z.boolean().default(true) })
 	.strict();
@@ -25,6 +29,7 @@ const student1 = {
 	gender: 'Male',
 	friends: ['aston', 'jet', 'money'],
 	coords: [2, 'one', 7, 5, 4, 6],
+	id: { status: 'success', data: 'Hello' },
 };
 
 console.log(studentSchema.safeParse(student1).success);

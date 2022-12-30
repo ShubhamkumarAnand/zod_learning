@@ -7,9 +7,10 @@ const studentSchema = z
 		birthday: z.date(),
 		isProgrammer: z.boolean().default(false),
 		gender: z.enum(['Male', 'Female', 'Other']),
+		friends: z.array(z.string()).nonempty(),
 	})
 	.extend({ isDoingImpressive: z.boolean().default(true) })
-	.passthrough();
+	.strict();
 
 // partial() makes Everything Optional
 // passthrough() makes everything pass through the additional fields
@@ -21,6 +22,7 @@ const student1 = {
 	birthday: new Date(),
 	isProgrammer: true,
 	gender: 'Male',
+	friends: ['aston', 'jet', 'money'],
 };
 
 console.log(studentSchema.safeParse(student1).success);

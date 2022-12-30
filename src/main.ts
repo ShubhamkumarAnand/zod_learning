@@ -8,6 +8,7 @@ const studentSchema = z
 		isProgrammer: z.boolean().default(false),
 		gender: z.enum(['Male', 'Female', 'Other']),
 		friends: z.array(z.string()).nonempty(),
+		coords: z.tuple([z.number(), z.string()]).rest(z.number()),
 	})
 	.extend({ isDoingImpressive: z.boolean().default(true) })
 	.strict();
@@ -23,6 +24,7 @@ const student1 = {
 	isProgrammer: true,
 	gender: 'Male',
 	friends: ['aston', 'jet', 'money'],
+	coords: [2, 'one', 7, 5, 4, 6],
 };
 
 console.log(studentSchema.safeParse(student1).success);
